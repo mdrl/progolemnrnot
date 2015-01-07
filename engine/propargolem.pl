@@ -63,12 +63,13 @@ create_armg(ExampleID, armg(core(ExampleID, [ExampleID], Indexs), clause(Bottom,
   numbersList(1, NumLiterals, Indexs).
 
 create_parsat(ExampleID, Example2ID, armg(core(ExampleID, [ExampleID], Indexs), clause(Bottom, BottomSig))):-
-  id2example(ExampleID, Example),
-  id2example(Example2ID, Example2),
-  parallel_sat(Example, Example2, mode(variablized, default), Bottom, Example2Sat, BottomSig,  Example2Sig),
-  length(Bottom, NumLiterals),
-  numbersList(1, NumLiterals, Indexs).
-
+	create_armg(ExampleID, armg(core(ExampleID, [ExampleID], Indexs), clause(Bottom, BottomSig))).
+  %id2example(ExampleID, Example),
+  %id2example(Example2ID, Example2),
+  %parallel_sat(Example, Example2, mode(variablized, default), Bottom, Example2Sat, BottomSig,  Example2Sig),
+  %length(Bottom, NumLiterals),
+  %numbersList(1, NumLiterals, Indexs).
+  
 %armg_core_to_clause(+core(SeedID, Remaining examples used in its construction, ListOfIndexs from SeedID), -Clause, -ClauseSig)
 armg_core_to_clause(core(SeedID, _OtherConsIDs, IndexsFromSeed), Clause, ClauseSig):-
   id2example(SeedID, Example),
@@ -202,9 +203,9 @@ negative_reduce_all([], _, _, [], _).
 negative_reduce_all([Current | Other], APosEIDs, TNegEIDs, ReducedClauses, Depth) :-
     negative_reduce_all(Other, APosEIDs, TNegEIDs, ReducedOther, Depth),
     (negative_reduce(Current, APosEIDs, TNegEIDs, ReducedCurrent, Depth) ->
-	 ReducedClauses = [ReducedCurrent | ReducedOther]
+	     ReducedClauses = [ReducedCurrent | ReducedOther]
      ;
-         ReducedClauses = [Current | ReducedOther]
+         ReducedClauses = ReducedOther
     ).
 
 
